@@ -1,0 +1,10 @@
+# SConstruct file for a sample ARP poisoner
+
+env = Environment()
+env["CXXFLAGS"] = "-Wall -g -ggdb"
+env["LIBS"] = Split("cyanid net")
+env["CPPPATH"] = Split("/usr/include/cyanid")
+
+sources = Split("main.cpp")
+
+env.Program('poison', sources)
