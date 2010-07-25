@@ -8,19 +8,22 @@ int main(int argc, char* argv[])
     const std::string iface = "wlan0";
 
     cyanid::device device(iface);
-    cyanid::basic_mac_addr* source_mac = device.get_mac();
-    cyanid::ip_addr source_ip = device.get_ip();
+    cyanid::basic_mac_addr* mac_addr = device.get_mac();
+    cyanid::ip_addr ip_addr = device.get_ip();
+
+    const std::string source_mac(cyanid::utils::addr_to_mac(mac_addr));
+    const std::string source_ip(cyanid::utils::addr4_to_ip(ip_addr));
 
     cout << "Using interface: " << iface << endl
-         << "MAC addr:        " << cyanid::utils::addr_to_mac(source_mac) << endl
-         << "IP addr:         " << cyanid::utils::addr4_to_ip(source_ip) << endl;
+         << "MAC addr:        " << source_mac << endl
+         << "IP addr:         " << source_ip << endl;
 
     cyanid::packet packet(device);
 
     packet.build<cyanid::arp>()(
             cyanid::arp::REPLY,
-            "aa:bb:cc:dd:ee:ff",
-            "192.168.1.4",
+            source_mac,
+            source_ip,
             "00:00:00:00:00:00",
             "192.168.1.1");
 
