@@ -2,7 +2,7 @@
 A C++ wrapper library for injecting and capturing packets.The library is a
 wrapper around the fantastic libnet and libpcap libraries. It aims to help the
 development of shady software for C++ programmers that are not too found of
-fooling around with C libraries that messes up their beautiful OO-design.
+fooling around with C libraries that mess up their beautiful OO-design.
 
 === Requirements ===
 - SCons
