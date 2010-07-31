@@ -10,12 +10,12 @@ public:
     typedef u_char data;
     typedef pcap_pkthdr header;
 
-    raw_packet(header* h, const data* d) : pkt_header(h), pkt_data(d) { }
+    raw_packet(const header* h, const data* d) : pkt_header(h), pkt_data(d) { }
     const data* packet_data() { return pkt_data; }
-    header* packet_header() { return pkt_header; }
+    const header* packet_header() { return pkt_header; }
 
 private:
-    header* pkt_header;
+    const header* pkt_header;
     const data* pkt_data;
 };
 
