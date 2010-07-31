@@ -10,6 +10,7 @@
 #include <cyanid/packet.hpp>
 #include <cyanid/raw_packet.hpp>
 #include <cyanid/types.hpp>
-#include <cyanid/util.hpp>
+#include <cyanid/utils/convert.hpp>
+#include <cyanid/utils/smart_ptr.hpp>
 
 #endif
