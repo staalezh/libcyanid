@@ -1,8 +1,5 @@
 === libcyanid ===
-A C++ wrapper library for injecting and capturing packets.The library is a
-wrapper around the fantastic libnet and libpcap libraries. It aims to help the
-development of shady software for C++ programmers that are not too found of
-fooling around with C libraries that mess up their beautiful OO-design.
+A C++ wrapper library for injecting and capturing packets.
 
 === Requirements ===
 - SCons
@@ -10,11 +7,10 @@ fooling around with C libraries that mess up their beautiful OO-design.
 - libpcap
 
 === Build and install ===
-Navigate to the cyanid directory and issue the following command to build
-libcyanid:
+Build:
 $ scons
 
-To install it, simply type:
+Install:
 $ sudo scons install
 
 

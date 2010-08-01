@@ -3,35 +3,10 @@
 
 using namespace std;
 
-class ARPListener : public cyanid::listener {
-public:
-    ARPListener(cyanid::device& dev) : cyanid::listener(dev)
-    {
-        apply_filter("arp");
-    }
-
-protected:
-    void handle_packet(const cyanid::raw_packet& packet)
-    {
-        cyanid::raw_packet::header* header = packet.header();
-        cyanid::builder::ethernet eth(packet.payload(), header);
-
-        std::cout << "Captured " << packet->len << " bytes from: " 
-            << eth.source_mac() << std::endl;
-
-        cyanid::builder::arp arp(eth.payload());
-        std::cout << "ARP Header: " << std::endl
-            << "Sender hardware address: " << arp.sha() << std::endl
-            << "Sender protocol address: " << arp.spa() << std::endl
-            << "Target hardware address: " << arp.tha() << std::endl
-            << "Target protocol address: " << arp.tpa() << std::endl;
-    }
-};
-
 int main(int argc, char* argv[])
 {
     if(argc < 2) {
-        cerr << "Usage: poision INTERFACE" << endl;
+        cerr << "Usage: arp_poisioner INTERFACE" << endl;
         return 1;
     }
 
@@ -47,9 +22,6 @@ int main(int argc, char* argv[])
     cout << "Using interface: " << iface << endl
          << "MAC addr:        " << source_mac << endl
          << "IP addr:         " << source_ip << endl;
-
-    ARPListener listener(device);
-    listener.run();
 
     cyanid::packet packet(device);
 
