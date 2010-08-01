@@ -16,10 +16,6 @@ public:
     virtual void handle_packet(const raw_packet&) = 0;
 
 private:
-    static void on_packet(raw_packet::data*, 
-            const raw_packet::header*,
-            const raw_packet::data*);
-
     device& dev;
     pcap_t* handle;
 };

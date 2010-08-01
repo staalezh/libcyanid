@@ -7,12 +7,24 @@ class ARPListener : public cyanid::listener {
 public:
     ARPListener(cyanid::device& dev) : cyanid::listener(dev)
     {
+        apply_filter("arp");
     }
 
 protected:
     void handle_packet(const cyanid::raw_packet& packet)
     {
-        std::cout << "Got a new packet" << std::endl;
+        cyanid::raw_packet::header* header = packet.header();
+        cyanid::builder::ethernet eth(packet.payload(), header);
+
+        std::cout << "Captured " << packet->len << " bytes from: " 
+            << eth.source_mac() << std::endl;
+
+        cyanid::builder::arp arp(eth.payload());
+        std::cout << "ARP Header: " << std::endl
+            << "Sender hardware address: " << arp.sha() << std::endl
+            << "Sender protocol address: " << arp.spa() << std::endl
+            << "Target hardware address: " << arp.tha() << std::endl
+            << "Target protocol address: " << arp.tpa() << std::endl;
     }
 };
 

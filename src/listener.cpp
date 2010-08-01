@@ -11,7 +11,7 @@ listener::listener(device& dev) :
     handle(0)
 {
     char errbuf[PCAP_ERRBUF_SIZE];
-    handle = pcap_open_live(dev.get_name().c_str(), 1, false, -1, errbuf);
+    handle = pcap_open_live(dev.get_name().c_str(), BUFSIZ, true, -1, errbuf);
 
     if(handle == 0) {
         std::stringstream error;
@@ -27,11 +27,13 @@ listener::~listener()
 
 void listener::run()
 {
-    if(pcap_loop(handle, -1, &listener::on_packet,
-                reinterpret_cast<raw_packet::data*>(this)) == -1) {
-        std::stringstream error;
-        error << "Unable to read packets: " << pcap_geterr(handle) << std::endl;
-        throw std::runtime_error(error.str());
+    raw_packet::header header;
+
+    while(true) {
+        const raw_packet::data* data = pcap_next(handle, &header);
+        if(data != 0) {
+            handle_packet(raw_packet(&header, data));
+        }
     }
 }
 
@@ -64,14 +66,5 @@ void listener::apply_filter(const std::string& filter)
         throw std::runtime_error(error.str());
     }
 }
-
-void listener::on_packet(raw_packet::data* l, 
-        const raw_packet::header* header, 
-        const raw_packet::data* packet)
-{
-    listener* handler  = reinterpret_cast<listener*>(l);
-    handler->handle_packet(raw_packet(header, packet));
-}
-
 
 } // namespace cyanid

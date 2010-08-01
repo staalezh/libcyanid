@@ -11,8 +11,8 @@ public:
     typedef pcap_pkthdr header;
 
     raw_packet(const header* h, const data* d) : pkt_header(h), pkt_data(d) { }
-    const data* packet_data() { return pkt_data; }
-    const header* packet_header() { return pkt_header; }
+    const data* payload() const { return pkt_data; }
+    const header* packet_header() const { return pkt_header; }
 
 private:
     const header* pkt_header;
