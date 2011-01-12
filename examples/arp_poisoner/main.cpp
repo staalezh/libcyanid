@@ -10,17 +10,17 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    const std::string iface      = argv[1];
-    const std::string target_mac = argv[2];
-    const std::string target_ip  = argv[3];
+    const string iface      = argv[1];
+    const string target_mac = argv[2];
+    const string target_ip  = argv[3];
 
     cyanid::device device(iface);
 
     cyanid::basic_mac_addr* mac_addr = device.get_mac();
     cyanid::ip_addr ip_addr = device.get_ip();
 
-    const std::string source_mac(cyanid::utils::mac_to_str(mac_addr));
-    const std::string source_ip(cyanid::utils::addr4_to_str(ip_addr));
+    const string source_mac(cyanid::utils::mac_to_str(mac_addr));
+    const string source_ip(cyanid::utils::addr4_to_str(ip_addr));
 
     cout << "Using interface: " << iface << endl
          << "Source MAC addr: " << source_mac << endl
