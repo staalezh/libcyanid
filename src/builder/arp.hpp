@@ -16,36 +16,50 @@ public:
     enum type { REQUEST = 1, REPLY = 2 };
 
     arp(context*);
-    arp(const raw_packet::data*);
+    arp(const raw_packet::data*, size_t);
 
     void operator()(type, const std::string&, const std::string&, 
         const std::string&, const std::string&);
 
-    const std::string& sha() const;
-    const std::string& spa() const;
-    const std::string& tha() const;
-    const std::string& tpa() const;
+    uint16_t htype() const { return hw_type; }
+    uint16_t ptype() const { return pr_type; }
+    uint8_t hlen() const { return hw_len; }
+    uint8_t plen() const { return pr_len; }
 
-    const raw_packet::data* payload() const;
+    const std::string& sha() const { return source_ha; }
+    const std::string& spa() const { return source_pa; }
+    const std::string& tha() const { return target_ha; }
+    const std::string& tpa() const { return target_pa; }
 
-private:
-    struct arp_header {
+    type oper() const { return req_type; }
+
+    struct header {
         uint16_t hw_type;
         uint16_t pr_type;
         uint8_t  hw_addr_len;
         uint8_t  pr_addr_len;
         uint16_t opcode;
-        unsigned char sha[6];
-        uint32_t spa;
-        unsigned char tha[6];
-        uint32_t tpa;
+        uint8_t sha[6];
+        uint8_t spa[4];
+        uint8_t tha[6];
+        uint8_t tpa[4];
     };
+
+    static const size_t header_size = sizeof(header);
+
+private:
+    uint16_t hw_type;
+    uint16_t pr_type;
+    uint8_t  hw_len;
+    uint8_t  pr_len;
+
+    type req_type;
 
     std::string source_ha;
     std::string source_pa;
     std::string target_ha;
     std::string target_pa;
-    type req_type;
+
 };
 
 } // namespace builder

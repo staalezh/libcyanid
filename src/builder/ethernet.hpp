@@ -13,7 +13,7 @@ namespace builder {
 class ethernet : public builder {
 public:
     ethernet(context*);
-    ethernet(const raw_packet::data*);
+    ethernet(const raw_packet::data*, size_t);
 
     void operator()(const std::string&, int);
 
@@ -22,18 +22,19 @@ public:
     uint16_t ether_type() const;
     const raw_packet::data* payload() const;
 
-private:
-    struct ethernet_header {
+    struct header {
         unsigned char target_mac[6];
         unsigned char source_mac[6];
         uint16_t ether_type;
-        raw_packet::data* data;
     };
 
+    static const size_t header_size = sizeof(header);
+
+private:
     std::string src_mac;
     std::string dst_mac;
     uint16_t eth_type;
-    raw_packet::data* data;
+    const raw_packet::data* data;
 };
 
 } // namespace builder

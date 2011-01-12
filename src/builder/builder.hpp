@@ -13,7 +13,7 @@ public:
     builder(context* c) : con(c) { };
     virtual ~builder() { };
 
-    virtual const raw_packet::data* payload() const = 0;
+    virtual const raw_packet::data* payload() const { return 0; }
 
 protected:
     context* get_context() { return con; }

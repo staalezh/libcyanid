@@ -12,29 +12,43 @@ basic_mac_addr* mac_to_addr(const std::string& addr)
     return ret;
 }
 
-ip_addr ip_to_addr4(const std::string& addr, context* con)
+ip_addr str_to_addr4(const std::string& addr, context* con)
 {
     static u_int8_t mode = LIBNET_DONT_RESOLVE;
     return libnet_name2addr4(con, const_cast<char*>(addr.c_str()), mode);
 }
 
-ip_addr name_to_addr4(const std::string& addr, context* con)
+ip_addr hostname_to_addr4(const std::string& addr, context* con)
 {
     static u_int8_t mode = LIBNET_RESOLVE;
     return libnet_name2addr4(con, const_cast<char*>(addr.c_str()), mode);
 }
 
-std::string addr4_to_name(const ip_addr addr)
+std::string addr4_to_hostname(const ip_addr addr)
 {
     return libnet_addr2name4(addr, LIBNET_RESOLVE);
 }
 
-std::string addr4_to_ip(const ip_addr addr)
+std::string addr4_to_str(const uint8_t* addr)
+{
+    static const short addr_size = 4;
+
+    std::stringstream result;
+    for(int i = 0; i < addr_size; ++i) {
+        result << static_cast<unsigned short>(addr[i]);
+        if(i < addr_size - 1)
+            result << ".";
+    }
+
+    return result.str();
+}
+
+std::string addr4_to_str(const ip_addr addr)
 {
     return libnet_addr2name4(addr, LIBNET_DONT_RESOLVE);
 }
 
-std::string addr_to_mac(const basic_mac_addr* addr)
+std::string mac_to_str(const basic_mac_addr* addr)
 {
     static const int mac_size = 6;
 

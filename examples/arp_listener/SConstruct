@@ -1,10 +1,9 @@
-# SConstruct file for a sample ARP poisoner
+# SConstruct file for a sample ARP listener
 
 env = Environment()
 env["CXXFLAGS"] = "-Wall -g -ggdb"
 env["LIBS"] = Split("cyanid net pcap")
 env["CPPPATH"] = Split("/usr/include/cyanid")
 
-sources = Split("main.cpp")
-
-env.Program('arp_poisoner', sources)
+sources = Split("main.cpp listener.cpp")
+env.Program('arp_listener', sources)

