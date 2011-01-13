@@ -5,22 +5,19 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    if(argc < 4) {
-        cerr << "Usage: arp_poisioner [interface] [tha] [tsa]" << endl;
+    if(argc < 6) {
+        cerr << "Usage: arp_poisioner [interface] "
+             << "[sha] [spa] [tha] [tpa]" << endl;
         return 1;
     }
 
     const string iface      = argv[1];
-    const string target_mac = argv[2];
-    const string target_ip  = argv[3];
+    const string source_mac = argv[2];
+    const string source_ip  = argv[3];
+    const string target_mac = argv[4];
+    const string target_ip  = argv[5];
 
     cyanid::device device(iface);
-
-    cyanid::basic_mac_addr* mac_addr = device.get_mac();
-    cyanid::ip_addr ip_addr = device.get_ip();
-
-    const string source_mac(cyanid::utils::mac_to_str(mac_addr));
-    const string source_ip(cyanid::utils::addr4_to_str(ip_addr));
 
     cout << "Using interface: " << iface << endl
          << "Source MAC addr: " << source_mac << endl
