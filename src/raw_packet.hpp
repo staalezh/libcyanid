@@ -1,7 +1,9 @@
 #ifndef _cyanid_raw_packet_hpp_
 #define _cyanid_raw_packet_hpp_
 
+#include "device.hpp"
 #include <pcap.h>
+#include <memory>
 
 namespace cyanid {
 

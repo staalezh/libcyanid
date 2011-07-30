@@ -9,14 +9,18 @@ namespace cyanid {
 
 class listener {
 public:
-    listener(device&);
+    listener(const device&);
     ~listener();
+
     void run();
     void apply_filter(const std::string&);
+
+protected:
     virtual void handle_packet(const raw_packet&) = 0;
+    const device& get_device() const;
 
 private:
-    device& dev;
+    const device& dev;
     pcap_t* handle;
 };
 

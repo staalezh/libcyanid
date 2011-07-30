@@ -9,6 +9,7 @@ env["CXXFLAGS"] = "-Wall -g -ggdb"
 sources = Split("""
         src/builder/arp.cpp
         src/builder/ethernet.cpp
+        src/builder/ip.cpp
         src/device.cpp
         src/listener.cpp
         src/packet.cpp
@@ -32,6 +33,7 @@ env.Install('/usr/include/cyanid/builder', Split("""
             src/builder/arp.hpp
             src/builder/builder.hpp
             src/builder/ethernet.hpp
+            src/builder/ip.hpp
             """))
 
 env.Install('/usr/include/cyanid/utils', Split("""

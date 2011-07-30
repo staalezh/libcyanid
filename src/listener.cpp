@@ -6,7 +6,7 @@
 
 namespace cyanid {
 
-listener::listener(device& dev) :
+listener::listener(const device& dev) :
     dev(dev),
     handle(0)
 {
@@ -65,6 +65,11 @@ void listener::apply_filter(const std::string& filter)
               << pcap_geterr(handle);
         throw std::runtime_error(error.str());
     }
+}
+
+const device& listener::get_device() const
+{
+    return dev;
 }
 
 } // namespace cyanid

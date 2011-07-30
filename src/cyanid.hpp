@@ -4,6 +4,7 @@
 #include <cyanid/builder/arp.hpp>
 #include <cyanid/builder/builder.hpp>
 #include <cyanid/builder/ethernet.hpp>
+#include <cyanid/builder/ip.hpp>
 #include <cyanid/context.hpp>
 #include <cyanid/device.hpp>
 #include <cyanid/listener.hpp>

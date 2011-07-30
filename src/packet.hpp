@@ -14,7 +14,7 @@ class packet {
 public:
     typedef libnet_ptag_t header;
 
-    packet(device&);
+    packet(const device&);
     packet(const std::string&);
     ~packet();
 
@@ -33,7 +33,7 @@ protected:
     const std::string get_error() const;
 
 private:
-    device dev;
+    const device& dev;
     builder::builder* packet_builder;
     context* con;
 };

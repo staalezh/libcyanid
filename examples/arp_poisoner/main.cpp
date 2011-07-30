@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     cyanid::packet packet(device);
 
     packet.build<cyanid::builder::arp>()(
-            cyanid::builder::arp::REPLY,
+            cyanid::builder::arp::REQUEST,
             source_mac,
             source_ip,
             target_mac,

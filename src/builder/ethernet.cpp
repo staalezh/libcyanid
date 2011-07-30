@@ -23,9 +23,7 @@ ethernet::ethernet(const raw_packet::data* packet, size_t data_size) :
 {
     if(data_size < header_size) {
         std::stringstream error;
-        error << "Unable to create ethernet header: "
-              << "Data size too small";
-
+        error << "Unable to create ethernet header: Data size too small";
         throw std::runtime_error(error.str());
     }
 

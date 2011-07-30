@@ -1,12 +1,13 @@
 #include "packet.hpp"
 #include "device.hpp"
 #include <libnet.h>
+
 #include <stdexcept>
 #include <sstream>
 
 namespace cyanid {
 
-packet::packet(device& dev) : 
+packet::packet(const device& dev) : 
     dev(dev), 
     packet_builder(0),
     con(dev.get_context())
@@ -23,7 +24,6 @@ packet::packet(const std::string& dev_name) :
 packet::~packet()
 {
     delete packet_builder;
-    libnet_destroy(con);
 }
 
 context* packet::get_context()
@@ -34,6 +34,8 @@ context* packet::get_context()
 size_t packet::dispatch()
 {
     int bytes_written = libnet_write(con);
+
+    libnet_clear_packet(con);
 
     if(bytes_written == -1) {
         std::stringstream error;

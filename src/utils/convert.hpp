@@ -18,7 +18,7 @@ std::string addr4_to_str(const uint8_t*);
 std::string addr4_to_str(const ip_addr);
 std::string mac_to_str(const basic_mac_addr*);
 
-}
-}
+} // namespace utils
+} // namespace cyanid
 
 #endif

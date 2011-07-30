@@ -18,7 +18,7 @@ void Listener::handle_packet(const cyanid::raw_packet& packet)
     size_t arp_size = packet_size - cyanid::builder::ethernet::header_size;
     cyanid::builder::arp arp(eth.payload(), arp_size);
 
-    std::string type = arp.oper() == cyanid::builder::arp::REQUEST ? 
+    std::string type = arp.oper() == cyanid::builder::arp::REQUEST ?
         "REQUEST" : "REPLY";
 
     cout << "Captured ARP packet: " << endl
